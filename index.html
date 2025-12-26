@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Raktosewa - Blood Donation Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec1313",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221010",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#181111] dark:text-white font-display overflow-x-hidden antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f4f0f0] dark:border-b-neutral-800 bg-white/90 dark:bg-[#221010]/90 backdrop-blur-md px-4 sm:px-10 py-3">
+<div class="flex items-center gap-4 text-[#181111] dark:text-white">
+<div class="size-8 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'FILL' 1;">bloodtype</span>
+</div>
+<h2 class="text-[#181111] dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">Raktosewa</h2>
+</div>
+<div class="hidden lg:flex flex-1 justify-end gap-8">
+<nav class="flex items-center gap-6">
+<a class="text-[#181111] dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-[#181111] dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">About</a>
+<a class="text-[#181111] dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Donate</a>
+<a class="text-[#181111] dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Camps</a>
+<a class="text-[#181111] dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Contact</a>
+</nav>
+<div class="flex items-center gap-2">
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-6 bg-primary hover:bg-red-700 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em] shadow-lg shadow-red-200 dark:shadow-none">
+<span class="truncate">Login / Register</span>
+</button>
+</div>
+</div>
+<div class="lg:hidden flex items-center">
+<button class="text-[#181111] dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center w-full">
+<section class="w-full max-w-[1440px] px-4 sm:px-10 py-12 sm:py-16">
+<div class="@container">
+<div class="flex flex-col gap-10 lg:gap-16 lg:flex-row items-center">
+<div class="flex flex-col gap-8 flex-1 text-center lg:text-left items-center lg:items-start">
+<div class="flex flex-col gap-4">
+<span class="text-primary font-bold tracking-wider uppercase text-sm bg-red-50 dark:bg-red-900/20 px-3 py-1 rounded-full w-fit mx-auto lg:mx-0 border border-red-100 dark:border-red-900">Be a Hero</span>
+<h1 class="text-[#181111] dark:text-white text-4xl sm:text-5xl lg:text-7xl font-black leading-[1.1] tracking-[-0.033em]">
+                                    Donate Blood, <br/><span class="text-primary">Save Lives.</span>
+</h1>
+<p class="text-neutral-600 dark:text-neutral-300 text-lg font-normal leading-relaxed max-w-[600px]">
+                                    Your contribution can mean the world to someone in need. Join the Raktosewa community and help us ensure that no one suffers due to a lack of blood.
+                                </p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+<button class="flex items-center justify-center rounded-xl h-14 px-8 bg-primary hover:bg-red-700 transition-all transform hover:scale-105 text-white text-base font-bold shadow-lg shadow-red-200 dark:shadow-none">
+                                    Register as Donor
+                                </button>
+<button class="flex items-center justify-center rounded-xl h-14 px-8 bg-white dark:bg-neutral-800 border-2 border-neutral-100 dark:border-neutral-700 text-[#181111] dark:text-white text-base font-bold hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors">
+                                    Upcoming Camps
+                                </button>
+</div>
+<div class="flex items-center gap-3 bg-white dark:bg-neutral-800 p-3 rounded-lg shadow-sm border border-neutral-100 dark:border-neutral-700 mt-2">
+<div class="bg-red-50 dark:bg-red-900/30 p-2 rounded-full text-primary">
+<span class="material-symbols-outlined">water_drop</span>
+</div>
+<div class="text-left">
+<p class="text-xs text-neutral-500 font-medium uppercase">Total Units Donated</p>
+<p class="text-lg font-black leading-none">15,420+</p>
+</div>
+</div>
+</div>
+<div class="w-full lg:w-1/2 relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-pink-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+<div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-neutral-100 dark:bg-neutral-800">
+<div class="w-full h-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBeJB-Md-UtMm0ogLfGqIwPtjqz4pp7tU9T1gMUY58wU463CYRzaX6QpPIggBKA3j4bwMbSeJVl6_EZeNIHPlvj4Dt0byl1fv9h3we3-YM8LmTQNTJsIQGCVLiNLAhWxxKLxqIswSWxmjE6QIlUoiSZfzdeJX-qo6um54KqoACw5A4HuQBeo3FxH1AjpbMuzlBdN1znTG64zyffZ7tonxFi7kL8reVfSxQjhLR0GHVQqQzviDyWwC-RyRb1uWcldbLYtgKfkP2UP8qI');"></div>
+<div class="absolute bottom-6 left-6 right-6 bg-white/95 dark:bg-neutral-900/95 backdrop-blur rounded-xl p-4 shadow-lg border border-neutral-100 dark:border-neutral-700 flex items-center gap-4">
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-white dark:border-neutral-800 bg-gray-300 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD75wGPqLNciXjtlmR1yRKKh-A_Cs1n7q1GpJjv2iM9kiai_c7PeO84875DKBBAttlSuDV5tMtmXdihJVIuTVIhnl1yNQdKh5evj8K2JDMqfMkobnhR94OHs457ntp3Bb80kPVqKZpwC3Hzpe1aa9RSPd1H6oZM-1DjaTuOpOo0p0CY_-Mj9uzChNExDmggHQ9dbnKYLtAtWx9ntNlBoIn6NoHNuZIjMseCx8by-pnSg8mrQeH8W_0s7YHocgZfCxWmbFRxsj2LqY5c');"></div>
+<div class="w-10 h-10 rounded-full border-2 border-white dark:border-neutral-800 bg-gray-300 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBZW_0ZVXY6sju0pvQ6Vu6_VgBcw3BByW2nJ30GaJEvTC3OuxdS1cGXnZj9nQIqmO6wdGCxmoqLmqrhk64_3LKN9csWbATseyCBulf1RW305Y_cKvY734F3V404_sCxm2XkYU-LyT62TFldUHaYiFDQE9Fplj_OCO_1qFMP8fNT8PUaBbHBqdrW7jNVRAWIljU06sYpJ45VXfzhz5SxJmvNhns_K5j67iEVII_WjelTx3d85MaO-Q9eLxkDMU5u_zt9GSjEU2B-swnJ');"></div>
+<div class="w-10 h-10 rounded-full border-2 border-white dark:border-neutral-800 bg-gray-300 flex items-center justify-center text-xs font-bold bg-neutral-100 text-neutral-600">+2k</div>
+</div>
+<div>
+<p class="font-bold text-sm">Join our donors</p>
+<p class="text-xs text-neutral-500">Make an impact today</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="w-full bg-white dark:bg-neutral-900 border-y border-neutral-100 dark:border-neutral-800 py-16">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-10">
+<div class="flex flex-col lg:flex-row gap-12 items-center">
+<div class="lg:w-1/3 flex flex-col gap-4">
+<h2 class="text-3xl font-bold text-[#181111] dark:text-white">Our Mission</h2>
+<p class="text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                                At Raktosewa, we bridge the gap between donors and patients. Our goal is to create a seamless network where finding blood is never a struggle. We believe that every drop counts and together we can build a healthier, safer community.
+                            </p>
+<a class="text-primary font-bold flex items-center gap-1 hover:underline mt-2" href="#">
+                                Learn more about us <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="lg:w-2/3 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
+<div class="bg-neutral-50 dark:bg-neutral-800 rounded-xl p-6 flex flex-col items-center text-center gap-2 border border-neutral-100 dark:border-neutral-700">
+<div class="size-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-primary mb-2">
+<span class="material-symbols-outlined">water_drop</span>
+</div>
+<p class="text-3xl font-black text-[#181111] dark:text-white">12,500+</p>
+<p class="text-sm font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">Units Donated</p>
+</div>
+<div class="bg-neutral-50 dark:bg-neutral-800 rounded-xl p-6 flex flex-col items-center text-center gap-2 border border-neutral-100 dark:border-neutral-700">
+<div class="size-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-primary mb-2">
+<span class="material-symbols-outlined">group_add</span>
+</div>
+<p class="text-3xl font-black text-[#181111] dark:text-white">5,000+</p>
+<p class="text-sm font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">Donors Registered</p>
+</div>
+<div class="bg-neutral-50 dark:bg-neutral-800 rounded-xl p-6 flex flex-col items-center text-center gap-2 border border-neutral-100 dark:border-neutral-700">
+<div class="size-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-primary mb-2">
+<span class="material-symbols-outlined">favorite</span>
+</div>
+<p class="text-3xl font-black text-[#181111] dark:text-white">37,500+</p>
+<p class="text-sm font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">Lives Saved</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="w-full max-w-[1280px] px-4 sm:px-10 py-20">
+<div class="flex flex-col gap-12">
+<div class="flex flex-col gap-4 text-center max-w-3xl mx-auto">
+<span class="text-primary font-bold tracking-wider uppercase text-sm">Simple Process</span>
+<h2 class="text-[#181111] dark:text-white text-3xl sm:text-4xl font-black leading-tight tracking-tight">
+                            How It Works
+                        </h2>
+<p class="text-neutral-600 dark:text-neutral-400 text-lg">
+                            Becoming a life-saver is easier than you think. Just follow these simple steps.
+                        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+<div class="hidden lg:block absolute top-12 left-[12%] right-[12%] h-0.5 bg-neutral-200 dark:bg-neutral-800 -z-10"></div>
+<div class="flex flex-col items-center text-center gap-4 group">
+<div class="size-24 rounded-full bg-white dark:bg-neutral-900 border-4 border-neutral-100 dark:border-neutral-800 flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform duration-300 z-10">
+<span class="material-symbols-outlined text-4xl">app_registration</span>
+</div>
+<h3 class="text-xl font-bold text-[#181111] dark:text-white">1. Register</h3>
+<p class="text-neutral-500 dark:text-neutral-400 text-sm leading-relaxed px-4">
+                                Sign up on our platform and fill in your basic health details.
+                            </p>
+</div>
+<div class="flex flex-col items-center text-center gap-4 group">
+<div class="size-24 rounded-full bg-white dark:bg-neutral-900 border-4 border-neutral-100 dark:border-neutral-800 flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform duration-300 z-10">
+<span class="material-symbols-outlined text-4xl">location_on</span>
+</div>
+<h3 class="text-xl font-bold text-[#181111] dark:text-white">2. Find Camps</h3>
+<p class="text-neutral-500 dark:text-neutral-400 text-sm leading-relaxed px-4">
+                                Locate nearby blood donation camps or drives on our map.
+                            </p>
+</div>
+<div class="flex flex-col items-center text-center gap-4 group">
+<div class="size-24 rounded-full bg-white dark:bg-neutral-900 border-4 border-neutral-100 dark:border-neutral-800 flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform duration-300 z-10">
+<span class="material-symbols-outlined text-4xl">bloodtype</span>
+</div>
+<h3 class="text-xl font-bold text-[#181111] dark:text-white">3. Donate</h3>
+<p class="text-neutral-500 dark:text-neutral-400 text-sm leading-relaxed px-4">
+                                Visit the camp at the scheduled time and donate blood safely.
+                            </p>
+</div>
+<div class="flex flex-col items-center text-center gap-4 group">
+<div class="size-24 rounded-full bg-white dark:bg-neutral-900 border-4 border-neutral-100 dark:border-neutral-800 flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform duration-300 z-10">
+<span class="material-symbols-outlined text-4xl">favorite</span>
+</div>
+<h3 class="text-xl font-bold text-[#181111] dark:text-white">4. Save Lives</h3>
+<p class="text-neutral-500 dark:text-neutral-400 text-sm leading-relaxed px-4">
+                                Your blood is processed and sent to patients in need.
+                            </p>
+</div>
+</div>
+</div>
+</section>
+<section class="w-full bg-neutral-50 dark:bg-neutral-900/50 py-20 border-y border-neutral-100 dark:border-neutral-800">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-10">
+<div class="flex flex-col sm:flex-row justify-between items-end sm:items-center mb-10 gap-4">
+<div class="flex flex-col gap-2">
+<h2 class="text-[#181111] dark:text-white text-3xl font-bold leading-tight tracking-tight">Upcoming Blood Donation Camps</h2>
+<p class="text-neutral-500 dark:text-neutral-400">Join a camp near you and make a difference.</p>
+</div>
+<a class="hidden sm:flex text-primary font-bold items-center gap-1 hover:underline" href="#">
+                            See All Camps <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="flex flex-col bg-white dark:bg-neutral-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-neutral-200 dark:border-neutral-700 group">
+<div class="h-48 bg-cover bg-center relative" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBTzlrTMo2GMAt2jhnBUEwK-luWgKQlerxyt_Rg93SHWKsNE8AtvO5cTSMlEHcm8jrWIZZSlrXPPvnhvKEOseBKcOEz82UGZef_oUY8twmWzNjpk8qKJTfNIutamUDX0cI3UB99tptrrC0BEcKHRoCkwKtCz7RsFXASwwJ95Jz3UbLtI5Uw501jaAqRYpvH-fuajMCfAV5L68l3I_aNN0nzceTjZshmrdgOa_dovJobNrRdUiLq6X9oRcANSuH4GNKepf1n5YNZkLeA');">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+<span class="bg-white/90 text-black text-xs font-bold px-2 py-1 rounded shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-red-500 text-sm">location_on</span>
+                                        2.5 km away
+                                    </span>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-4 flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-[#181111] dark:text-white group-hover:text-primary transition-colors">City Center Camp</h3>
+<p class="text-neutral-500 dark:text-neutral-400 text-sm mt-1">Main Atrium, City Mall</p>
+</div>
+<div class="text-center bg-red-50 dark:bg-red-900/20 rounded-lg p-2 min-w-[60px]">
+<p class="text-xs font-bold text-red-600 dark:text-red-400 uppercase">OCT</p>
+<p class="text-xl font-bold text-[#181111] dark:text-white">24</p>
+</div>
+</div>
+<div class="space-y-2 pt-2">
+<div class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300">
+<span class="material-symbols-outlined text-base text-neutral-400">schedule</span>
+<span>10:00 AM - 4:00 PM</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300">
+<span class="material-symbols-outlined text-base text-neutral-400">map</span>
+<span>City Center, Block B</span>
+</div>
+</div>
+<button class="w-full mt-4 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-red-700 transition-colors shadow-sm">
+                                    Register
+                                </button>
+</div>
+</div>
+<div class="flex flex-col bg-white dark:bg-neutral-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-neutral-200 dark:border-neutral-700 group">
+<div class="h-48 bg-cover bg-center relative" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuApIRC8aFPmY4C61PIdgEGXBmC1sSLaebLHKy3FtPeIZqYNAhg1DMAPDcfk3lJIdp1OPOfCbG1PkIIHA-QtDMyN8qkneFFCYc7iW7WEO0ZR7m9dBiKO29YFQiEmWFcGMQZ3rj01RQIjy2A4yNdRpbcPeUkl7NCNoJFN_LU4e3knLB1kyc759izcIihgy1KpkBv-sWr7eQaoLeyxXL2VyihinYjccf10RjjL00RpfmppbUarNC6t1fRzUNqjAVqi8NazwMKXzMPOUNnb');">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+<span class="bg-white/90 text-black text-xs font-bold px-2 py-1 rounded shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-red-500 text-sm">location_on</span>
+                                        5.0 km away
+                                    </span>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-4 flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-[#181111] dark:text-white group-hover:text-primary transition-colors">University Drive</h3>
+<p class="text-neutral-500 dark:text-neutral-400 text-sm mt-1">Student Union Hall</p>
+</div>
+<div class="text-center bg-red-50 dark:bg-red-900/20 rounded-lg p-2 min-w-[60px]">
+<p class="text-xs font-bold text-red-600 dark:text-red-400 uppercase">NOV</p>
+<p class="text-xl font-bold text-[#181111] dark:text-white">02</p>
+</div>
+</div>
+<div class="space-y-2 pt-2">
+<div class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300">
+<span class="material-symbols-outlined text-base text-neutral-400">schedule</span>
+<span>09:00 AM - 3:00 PM</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300">
+<span class="material-symbols-outlined text-base text-neutral-400">map</span>
+<span>Central University Campus</span>
+</div>
+</div>
+<button class="w-full mt-4 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-red-700 transition-colors shadow-sm">
+                                    Register
+                                </button>
+</div>
+</div>
+<div class="flex flex-col bg-white dark:bg-neutral-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-neutral-200 dark:border-neutral-700 group">
+<div class="h-48 bg-cover bg-center relative" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB0S0yJ4gOpmDpUGPfq4AmmBTZunvHD8AvdIh5spxWi5l8neBrRvqHtYcCCLubZj7eAEsgkJEB-Qy9yM8DAs9i4VuMlzF26dtJdM4vRE-tpb7FdcNBgS41YjjExzb5DzS6QUd-gl0KpWfrRtFnH-kh6E8818G8lcMte-D6NcopWtfQX8OVd_fv-fdP7eXXiJwJI_ibz_tDZ7qaRnpGYAdK_yKgzH8Y34G3SqeZedh73ZSS78ou53-yrx5rJQ6IftNTDInyGjFtZh_7f');">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+<span class="bg-white/90 text-black text-xs font-bold px-2 py-1 rounded shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-red-500 text-sm">location_on</span>
+                                        8.2 km away
+                                    </span>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-4 flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-[#181111] dark:text-white group-hover:text-primary transition-colors">Greenwood Camp</h3>
+<p class="text-neutral-500 dark:text-neutral-400 text-sm mt-1">Community Hall</p>
+</div>
+<div class="text-center bg-red-50 dark:bg-red-900/20 rounded-lg p-2 min-w-[60px]">
+<p class="text-xs font-bold text-red-600 dark:text-red-400 uppercase">NOV</p>
+<p class="text-xl font-bold text-[#181111] dark:text-white">15</p>
+</div>
+</div>
+<div class="space-y-2 pt-2">
+<div class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300">
+<span class="material-symbols-outlined text-base text-neutral-400">schedule</span>
+<span>11:00 AM - 5:00 PM</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300">
+<span class="material-symbols-outlined text-base text-neutral-400">map</span>
+<span>Greenwood Park Area</span>
+</div>
+</div>
+<button class="w-full mt-4 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-red-700 transition-colors shadow-sm">
+                                    Register
+                                </button>
+</div>
+</div>
+</div>
+<div class="mt-10 sm:hidden text-center">
+<a class="inline-flex justify-center items-center w-full py-3 rounded-lg border border-neutral-300 text-neutral-700 font-bold hover:bg-neutral-50" href="#">
+                            See All Camps
+                        </a>
+</div>
+</div>
+</section>
+<section class="w-full max-w-[1280px] px-4 sm:px-10 py-20">
+<div class="text-center mb-12">
+<h2 class="text-[#181111] dark:text-white text-3xl font-bold leading-tight">Donor Stories</h2>
+<p class="text-neutral-600 dark:text-neutral-400 mt-2">Hear from the heroes who are making a difference.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="bg-white dark:bg-neutral-800 p-8 rounded-2xl shadow-sm border border-neutral-100 dark:border-neutral-700 relative flex flex-col h-full hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined absolute top-6 right-6 text-red-100 dark:text-red-900/40 text-6xl select-none">format_quote</span>
+<div class="flex items-center gap-4 mb-6 relative z-10">
+<div class="w-14 h-14 rounded-full bg-cover bg-center border-2 border-primary/20" data-alt="Portrait of Sarah smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD75wGPqLNciXjtlmR1yRKKh-A_Cs1n7q1GpJjv2iM9kiai_c7PeO84875DKBBAttlSuDV5tMtmXdihJVIuTVIhnl1yNQdKh5evj8K2JDMqfMkobnhR94OHs457ntp3Bb80kPVqKZpwC3Hzpe1aa9RSPd1H6oZM-1DjaTuOpOo0p0CY_-Mj9uzChNExDmggHQ9dbnKYLtAtWx9ntNlBoIn6NoHNuZIjMseCx8by-pnSg8mrQeH8W_0s7YHocgZfCxWmbFRxsj2LqY5c');"></div>
+<div>
+<h4 class="font-bold text-[#181111] dark:text-white text-lg">Sarah Jenkins</h4>
+<p class="text-sm text-neutral-500">Regular Donor</p>
+</div>
+</div>
+<p class="text-neutral-600 dark:text-neutral-300 relative z-10 italic flex-1">
+                            "Giving blood was easier than I thought. The staff was incredibly supportive, and knowing I helped save lives feels amazing."
+                        </p>
+</div>
+<div class="bg-white dark:bg-neutral-800 p-8 rounded-2xl shadow-sm border border-neutral-100 dark:border-neutral-700 relative flex flex-col h-full hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined absolute top-6 right-6 text-red-100 dark:text-red-900/40 text-6xl select-none">format_quote</span>
+<div class="flex items-center gap-4 mb-6 relative z-10">
+<div class="w-14 h-14 rounded-full bg-cover bg-center border-2 border-primary/20" data-alt="Portrait of Michael smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBZW_0ZVXY6sju0pvQ6Vu6_VgBcw3BByW2nJ30GaJEvTC3OuxdS1cGXnZj9nQIqmO6wdGCxmoqLmqrhk64_3LKN9csWbATseyCBulf1RW305Y_cKvY734F3V404_sCxm2XkYU-LyT62TFldUHaYiFDQE9Fplj_OCO_1qFMP8fNT8PUaBbHBqdrW7jNVRAWIljU06sYpJ45VXfzhz5SxJmvNhns_K5j67iEVII_WjelTx3d85MaO-Q9eLxkDMU5u_zt9GSjEU2B-swnJ');"></div>
+<div>
+<h4 class="font-bold text-[#181111] dark:text-white text-lg">Michael Chen</h4>
+<p class="text-sm text-neutral-500">Student Volunteer</p>
+</div>
+</div>
+<p class="text-neutral-600 dark:text-neutral-300 relative z-10 italic flex-1">
+                            "I've been donating for 5 years now through Raktosewa. The process is seamless and they always keep you updated on drives."
+                        </p>
+</div>
+<div class="bg-white dark:bg-neutral-800 p-8 rounded-2xl shadow-sm border border-neutral-100 dark:border-neutral-700 relative flex flex-col h-full hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined absolute top-6 right-6 text-red-100 dark:text-red-900/40 text-6xl select-none">format_quote</span>
+<div class="flex items-center gap-4 mb-6 relative z-10">
+<div class="w-14 h-14 rounded-full bg-cover bg-center border-2 border-primary/20" data-alt="Portrait of Anita smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAeSUJdt2vnIYopC307Li1wEHMmQ__BhoJ_aZDoGzv8ONffVImFkrEg3a4xMNriWhJx2q5G6WqpaSzpWram8hC23dtKrKDbi_XeP_e41ZZoIfVldYK64N0CYfXI23a2UwMfVj64nzyJ1F9ZyJeNa19jdoeR7Rqe_rd433YppqT26a9DeCkuDChnNt3HOwkcC2WgkFjFNn_A9hpG5z96VtpQj-dDMRF_yYyIEc36FYghxbt8Y200JjPSSKwwAhx2S2UngxqNRuaOwzoC');"></div>
+<div>
+<h4 class="font-bold text-[#181111] dark:text-white text-lg">Anita Patel</h4>
+<p class="text-sm text-neutral-500">Teacher</p>
+</div>
+</div>
+<p class="text-neutral-600 dark:text-neutral-300 relative z-10 italic flex-1">
+                            "The community feel here is real. I feel proud to be part of a network that cares so much about helping others in need."
+                        </p>
+</div>
+</div>
+</section>
+<section class="w-full bg-primary py-16 px-4">
+<div class="max-w-[1280px] mx-auto bg-white/10 backdrop-blur-sm rounded-3xl p-8 sm:p-12 flex flex-col lg:flex-row items-center justify-between gap-8 border border-white/20">
+<div class="flex flex-col gap-4 text-center lg:text-left max-w-xl">
+<h2 class="text-white text-3xl font-bold">Stay Updated on Camps</h2>
+<p class="text-red-100 text-lg">
+                            Get notified about urgent blood needs and upcoming donation camps in your area. No spam, we promise.
+                        </p>
+</div>
+<form class="w-full lg:w-auto flex flex-col sm:flex-row gap-3 min-w-[300px] lg:min-w-[450px]">
+<input class="flex-1 bg-white border-none rounded-xl px-5 py-4 text-base focus:ring-2 focus:ring-red-900 text-[#181111] placeholder-neutral-500 shadow-lg" placeholder="Enter your email address" type="email"/>
+<button class="bg-neutral-900 text-white font-bold px-8 py-4 rounded-xl hover:bg-neutral-800 transition-colors shadow-lg whitespace-nowrap">
+                            Subscribe
+                        </button>
+</form>
+</div>
+</section>
+</main>
+<footer class="bg-[#181111] text-white py-16 px-4 sm:px-10 border-t border-neutral-800">
+<div class="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-size: 32px; font-variation-settings: 'FILL' 1;">bloodtype</span>
+<h3 class="text-2xl font-bold">Raktosewa</h3>
+</div>
+<p class="text-neutral-400 text-sm leading-relaxed max-w-xs">
+                        Connecting blood donors with those in need. Join our mission to ensure no life is lost due to a lack of blood.
+                    </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center text-neutral-400 hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="font-bold text-xs">FB</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center text-neutral-400 hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="font-bold text-xs">TW</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center text-neutral-400 hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="font-bold text-xs">IG</span>
+</a>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<h4 class="font-bold text-lg text-white">Quick Links</h4>
+<nav class="flex flex-col gap-3 text-neutral-400 text-sm">
+<a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-xs">chevron_right</span> Home
+                        </a>
+<a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-xs">chevron_right</span> About Us
+                        </a>
+<a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-xs">chevron_right</span> Donate Blood
+                        </a>
+<a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-xs">chevron_right</span> Camps
+                        </a>
+<a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-xs">chevron_right</span> Contact
+                        </a>
+</nav>
+</div>
+<div class="flex flex-col gap-6">
+<h4 class="font-bold text-lg text-white">Legal</h4>
+<nav class="flex flex-col gap-3 text-neutral-400 text-sm">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Cookie Policy</a>
+</nav>
+</div>
+<div class="flex flex-col gap-6">
+<h4 class="font-bold text-lg text-white">Contact Us</h4>
+<div class="flex flex-col gap-4 text-neutral-400 text-sm">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">location_on</span>
+<span>123 Health Avenue,<br/>Medicity District, 45001</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">call</span>
+<span>+1 (555) 123-4567</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">mail</span>
+<span>support@raktosewa.org</span>
+</div>
+</div>
+</div>
+</div>
+<div class="max-w-[1280px] mx-auto mt-16 pt-8 border-t border-neutral-800 text-center text-neutral-500 text-sm">
+                © 2023 Raktosewa. All rights reserved.
+            </div>
+</footer>
+</div>
+
+</body></html>
