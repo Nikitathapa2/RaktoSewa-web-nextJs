@@ -1,5 +1,5 @@
 "use server";
-import { registerDonor, registerOrganization, loginDonor, loginOrganization } from "@/lib/api/auth"
+import { registerDonor, registerOrganization, loginDonor, loginOrganization, loginAdmin } from "@/lib/api/auth"
 import { LoginSchemaType, RegisterSchemaType } from "@/app/(auth)/schema"
 import { setAuthToken, setUserData, clearAuthCookies, getUserData, getAuthToken } from "../cookie"
 import { redirect } from "next/navigation";
@@ -92,8 +92,48 @@ export const getCurrentUser = async () => {
 }
 
 
+export const handleAdminLogin = async (data: LoginSchemaType) => {
+    try {
+        const response = await loginAdmin(data);
+        console.log('handleAdminLogin response:', response);
+        
+        if (response && response.success) {
+            await setAuthToken(response.token);
+            await setUserData(response.user);
+            
+            return {
+                success: true,
+                message: response.message || 'Admin login successful',
+                token: response.token,
+                user: response.user
+            }
+        }
+        
+        return {
+            success: false,
+            message: response?.message || 'Invalid email or password'
+        }
+    } catch (error: any) {
+        console.error('handleAdminLogin error:', error);
+        return { 
+            success: false, 
+            message: error.message || 'Login action failed' 
+        }
+    }
+}
+
 export const handleLogout = async () => {
     await clearAuthCookies();
     revalidatePath('/', 'layout');
     redirect('/login');
+}
+
+export const updateUserDataInCookies = async (userData: any) => {
+    try {
+        await setUserData(userData);
+        return { success: true };
+    } catch (error: any) {
+        console.error('Failed to update user data in cookies:', error);
+        return { success: false, message: error.message };
+    }
 }

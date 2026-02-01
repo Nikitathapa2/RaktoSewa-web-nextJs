@@ -7,18 +7,48 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 export default function Header() {
+  const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       const currentUser = await getCurrentUser();
       setUser(currentUser);
+      updateProfilePicture(currentUser?.user?.profilePicture);
       setIsLoading(false);
     };
     fetchUser();
+
+    // Listen for custom userUpdated event
+    const handleUserUpdate = (event: any) => {
+      const updatedUser = event.detail;
+      if (updatedUser) {
+        setUser({ user: updatedUser });
+        updateProfilePicture(updatedUser.profilePicture);
+      }
+    };
+
+    window.addEventListener('userUpdated', handleUserUpdate);
+    return () => window.removeEventListener('userUpdated', handleUserUpdate);
   }, []);
+
+  const updateProfilePicture = (profilePicture: string | null | undefined) => {
+    if (!profilePicture) {
+      setProfilePictureUrl(null);
+      return;
+    }
+
+    let picUrl = profilePicture;
+    if (!picUrl.startsWith('http')) {
+      const cleanPath = picUrl.startsWith('/') ? picUrl.substring(1) : picUrl;
+      picUrl = `http://localhost:5050/public/profile_pictures/${cleanPath}`;
+    }
+    // Add timestamp for cache busting
+    setProfilePictureUrl(`${picUrl}?t=${Date.now()}`);
+  };
 
   const onLogout = async () => {
     try {
@@ -41,6 +71,10 @@ export default function Header() {
     }
     return name.substring(0, 2).toUpperCase();
   };
+
+  const userType = user?.user?.userType;
+  const dashboardLink = userType === "organization" ? "/organization/dashboard" : "/donor/dashboard";
+  const profileLink = userType === "organization" ? "/organization/profile" : "/donor/profile";
 
   return (
       <nav className="bg-white shadow-sm">
@@ -84,8 +118,19 @@ export default function Header() {
                         onClick={() => setShowDropdown(!showDropdown)}
                         className="flex items-center space-x-2 focus:outline-none"
                       >
-                        <div className="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center font-semibold hover:bg-red-700 transition">
-                          {getInitials(user.user?.fullName || user.user?.organizationName || user.user?.name || "User")}
+                        <div
+                          className="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center font-semibold hover:bg-red-700 transition bg-cover bg-center"
+                          style={
+                            profilePictureUrl
+                              ? {
+                                  backgroundImage: `url("${profilePictureUrl}")`,
+                                  backgroundSize: 'cover',
+                                }
+                              : {}
+                          }
+                        >
+                          {!profilePictureUrl &&
+                            getInitials(user.user?.fullName || user.user?.organizationName || user.user?.name || "User")}
                         </div>
                       </button>
 
@@ -99,14 +144,14 @@ export default function Header() {
                             <p className="text-xs text-gray-500 break-words truncate">{user.user?.email}</p>
                           </div>
                           <Link
-                            href="/dashboard"
+                            href={dashboardLink}
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 truncate"
                             onClick={() => setShowDropdown(false)}
                           >
                             Dashboard
                           </Link>
                           <Link
-                            href="/profile"
+                            href={profileLink}
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 truncate"
                             onClick={() => setShowDropdown(false)}
                           >

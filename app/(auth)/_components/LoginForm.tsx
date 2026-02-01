@@ -28,14 +28,48 @@ export default function LoginForm() {
       setIsLoading(true);
       const response = await handleLogin(data, userType);
       console.log("Login response:", response);
+      console.log("Response data:", response?.data);
       
       if (response && response.success) {
         toast.success(response.message || "Login successful!");
-        router.push("/");
+        
+        // The response structure is: response.data contains the full API response
+        // which has { success, message, token, data: { user object } }
+        const apiResponse = response.data;
+        
+        if (apiResponse && apiResponse.data) {
+          // Store user data and token in localStorage
+          localStorage.setItem('user', JSON.stringify(apiResponse.data));
+          localStorage.setItem('auth_token', apiResponse.token);
+          
+          const user = apiResponse.data;
+          console.log("User data:", user);
+          console.log("User role:", user.role);
+          console.log("User type:", user.userType);
+          
+          // Redirect based on role and userType
+          if (user.role === 'admin') {
+            console.log("Redirecting to /admin");
+            router.push('/admin');
+          } else if (user.userType === 'donor') {
+            console.log("Redirecting to /donor/dashboard");
+            router.push('/donor/dashboard');
+          } else if (user.userType === 'organization') {
+            console.log("Redirecting to /organization/dashboard");
+            router.push('/organization/dashboard');
+          } else {
+            console.log("Redirecting to /");
+            router.push('/');
+          }
+        } else {
+          console.log("No user data, redirecting to /");
+          router.push('/');
+        }
       } else {
         toast.error(response?.message || "Login failed. Please try again.");
       }
     } catch (error: any) {
+      console.error("Login error:", error);
       toast.error(error.message || "Login failed. Please try again.");
     } finally {
       setIsLoading(false);

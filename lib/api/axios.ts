@@ -13,6 +13,18 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     (config) => {
         console.log(`Making ${config.method?.toUpperCase()} request to: ${config.baseURL}${config.url}`);
+        
+        // Add auth token to headers if it exists
+        const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        
+        // If data is FormData, remove Content-Type header to let browser set it
+        if (config.data instanceof FormData) {
+            delete config.headers['Content-Type'];
+        }
+        
         return config;
     },
     (error) => {
