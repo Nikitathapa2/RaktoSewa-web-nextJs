@@ -1,5 +1,5 @@
 "use server";
-import { registerDonor, registerOrganization, loginDonor, loginOrganization, loginAdmin } from "@/lib/api/auth"
+import { registerDonor, registerOrganization, loginDonor, loginOrganization, loginAdmin, requestPasswordReset as apiRequestPasswordReset, verifyOTP as apiVerifyOTP, resetPassword as apiResetPassword, resendOTP as apiResendOTP } from "@/lib/api/auth"
 import { LoginSchemaType, RegisterSchemaType } from "@/app/(auth)/schema"
 import { setAuthToken, setUserData, clearAuthCookies, getUserData, getAuthToken } from "../cookie"
 import { redirect } from "next/navigation";
@@ -135,5 +135,79 @@ export const updateUserDataInCookies = async (userData: any) => {
     } catch (error: any) {
         console.error('Failed to update user data in cookies:', error);
         return { success: false, message: error.message };
+    }
+}
+
+/**
+ * Password Reset Actions
+ */
+
+export const handleForgotPassword = async (email: string, userType: "donor" | "organization") => {
+    try {
+        const response = await apiRequestPasswordReset(email, userType);
+        return {
+            success: true,
+            message: response.message || "OTP sent successfully"
+        }
+    } catch (error: any) {
+        console.error('handleForgotPassword error:', error);
+        return {
+            success: false,
+            message: error.response?.data?.message || error.message || "Failed to send OTP"
+        }
+    }
+}
+
+export const handleVerifyOTP = async (email: string, otp: string, userType: "donor" | "organization") => {
+    try {
+        const response = await apiVerifyOTP(email, otp, userType);
+        return {
+            success: true,
+            message: response.message || "OTP verified successfully"
+        }
+    } catch (error: any) {
+        console.error('handleVerifyOTP error:', error);
+        return {
+            success: false,
+            message: error.response?.data?.message || error.message || "OTP verification failed"
+        }
+    }
+}
+
+export const handleResetPassword = async (
+    email: string,
+    otp: string,
+    newPassword: string,
+    confirmPassword: string,
+    userType: "donor" | "organization"
+) => {
+    try {
+        const response = await apiResetPassword(email, otp, newPassword, confirmPassword, userType);
+        return {
+            success: true,
+            message: response.message || "Password reset successfully"
+        }
+    } catch (error: any) {
+        console.error('handleResetPassword error:', error);
+        return {
+            success: false,
+            message: error.response?.data?.message || error.message || "Password reset failed"
+        }
+    }
+}
+
+export const handleResendOTP = async (email: string, userType: "donor" | "organization") => {
+    try {
+        const response = await apiResendOTP(email, userType);
+        return {
+            success: true,
+            message: response.message || "OTP resent successfully"
+        }
+    } catch (error: any) {
+        console.error('handleResendOTP error:', error);
+        return {
+            success: false,
+            message: error.response?.data?.message || error.message || "Failed to resend OTP"
+        }
     }
 }

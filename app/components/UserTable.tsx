@@ -7,6 +7,7 @@
  */
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Edit, Eye, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -91,14 +92,18 @@ export function UserTable({ users, onDelete }: UserTableProps) {
               >
                 <td className="px-6 py-4 text-sm">
                   {user.profilePicture ? (
-                    <img
-                      src={getProfilePictureUrl(user.profilePicture) || ''}
-                      alt="Profile"
-                      className="w-10 h-10 object-cover rounded-full"
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src = 'https://via.placeholder.com/40?text=No+Img';
-                      }}
-                    />
+                    <div className="w-10 h-10 relative">
+                      <Image
+                        src={getProfilePictureUrl(user.profilePicture) || ''}
+                        alt="Profile"
+                        fill
+                        className="object-cover rounded-full"
+                        unoptimized
+                        onError={() => {
+                          // Fallback handled by placeholder or empty state
+                        }}
+                      />
+                    </div>
                   ) : (
                     <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 text-xs">
                       N/A

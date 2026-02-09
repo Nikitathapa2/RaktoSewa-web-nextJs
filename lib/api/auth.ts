@@ -107,3 +107,91 @@ export const updateOwnProfile = async (userId: string, profileData: FormData) =>
       || error.message || 'Update profile failed');
   }
 }
+
+/**
+ * Password Reset Functions
+ */
+
+/**
+ * Request password reset - Send OTP
+ * POST /api/v1/donor/forgot-password or /api/v1/organization/forgot-password
+ */
+export const requestPasswordReset = async (email: string, userType: "donor" | "organization") => {
+  try {
+    const endpoint = userType === "donor" 
+      ? API.AUTH.DONOR.FORGOT_PASSWORD 
+      : API.AUTH.ORGANIZATION.FORGOT_PASSWORD;
+    
+    const response = await axiosInstance.post(endpoint, { email, userType });
+    return response.data;
+  } catch (error: any) {
+    console.error('requestPasswordReset error:', error);
+    throw error;
+  }
+}
+
+/**
+ * Verify OTP
+ * POST /api/v1/donor/verify-otp or /api/v1/organization/verify-otp
+ */
+export const verifyOTP = async (email: string, otp: string, userType: "donor" | "organization") => {
+  try {
+    const endpoint = userType === "donor" 
+      ? API.AUTH.DONOR.VERIFY_OTP 
+      : API.AUTH.ORGANIZATION.VERIFY_OTP;
+    
+    const response = await axiosInstance.post(endpoint, { email, otp, userType });
+    return response.data;
+  } catch (error: any) {
+    console.error('verifyOTP error:', error);
+    throw error;
+  }
+}
+
+/**
+ * Reset Password
+ * POST /api/v1/donor/reset-password or /api/v1/organization/reset-password
+ */
+export const resetPassword = async (
+  email: string,
+  otp: string,
+  newPassword: string,
+  confirmPassword: string,
+  userType: "donor" | "organization"
+) => {
+  try {
+    const endpoint = userType === "donor" 
+      ? API.AUTH.DONOR.RESET_PASSWORD 
+      : API.AUTH.ORGANIZATION.RESET_PASSWORD;
+    
+    const response = await axiosInstance.post(endpoint, {
+      email,
+      otp,
+      newPassword,
+      confirmPassword,
+      userType,
+    });
+    return response.data;
+  } catch (error: any) {
+    console.error('resetPassword error:', error);
+    throw error;
+  }
+}
+
+/**
+ * Resend OTP
+ * POST /api/v1/donor/resend-otp or /api/v1/organization/resend-otp
+ */
+export const resendOTP = async (email: string, userType: "donor" | "organization") => {
+  try {
+    const endpoint = userType === "donor" 
+      ? API.AUTH.DONOR.RESEND_OTP 
+      : API.AUTH.ORGANIZATION.RESEND_OTP;
+    
+    const response = await axiosInstance.post(endpoint, { email, userType });
+    return response.data;
+  } catch (error: any) {
+    console.error('resendOTP error:', error);
+    throw error;
+  }
+}

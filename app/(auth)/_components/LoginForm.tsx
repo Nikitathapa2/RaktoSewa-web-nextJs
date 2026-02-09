@@ -151,6 +151,14 @@ export default function LoginForm() {
               {errors.password.message}
             </p>
           )}
+          <div className="text-right mt-2">
+            <Link 
+              href={`/forgot-password?userType=${userType}`}
+              className="text-sm text-red-600 hover:text-red-700 font-medium"
+            >
+              Forgot Password?
+            </Link>
+          </div>
         </div>
 
         {/* Login Button */}

@@ -8,6 +8,7 @@
  */
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { Upload, X } from 'lucide-react';
@@ -433,10 +434,12 @@ export function UserForm({ userId, initialData, mode, onSuccess, onCancel }: Use
             <div className="mt-4">
               <p className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-zinc-400 mb-3">Preview</p>
               <div className="relative w-24 h-24 rounded-lg overflow-hidden border-2 border-red-600/20">
-                <img
+                <Image
                   src={previewImage}
                   alt="Preview"
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  unoptimized
                 />
                 <button
                   type="button"
