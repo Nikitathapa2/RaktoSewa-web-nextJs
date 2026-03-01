@@ -1,10 +1,7 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  phoneNumber: z
-    .string()
-    .min(10, "Phone number is required")
-    .regex(/^[0-9+]+$/, "Invalid phone number"),
+  email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
@@ -56,3 +53,34 @@ export const registerSchema = z.union([
 ]);
 
 export type RegisterSchemaType = z.infer<typeof registerSchema>;
+/**
+ * Password Reset Schemas
+ */
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  userType: z.enum(["donor", "organization"], { message: "Select either Donor or Organization" }),
+});
+
+export type ForgotPasswordSchemaType = z.infer<typeof forgotPasswordSchema>;
+
+export const verifyOTPSchema = z.object({
+  otp: z.string()
+    .min(6, "OTP must be 6 digits")
+    .max(6, "OTP must be 6 digits")
+    .regex(/^\d{6}$/, "OTP must contain only numbers"),
+});
+
+export type VerifyOTPSchemaType = z.infer<typeof verifyOTPSchema>;
+
+export const resetPasswordSchema = z.object({
+  newPassword: z.string()
+    .min(6, "Password must be at least 6 characters")
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain uppercase, lowercase, and numbers"),
+  confirmPassword: z.string().min(6, "Confirm password is required"),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
+});
+
+export type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;

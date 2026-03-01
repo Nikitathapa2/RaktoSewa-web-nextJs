@@ -4,17 +4,23 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterSchemaType } from "../schema";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { handleRegister } from "@/lib/actions/auth-action";
+import { toast } from "react-hot-toast";
 
 export default function RegisterForm() {
+  const router = useRouter();
   const [userType, setUserType] = useState<"donor" | "organization">("donor");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     unregister,
+    setValue,
   } = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
     defaultValues: { userType: "donor", terms: false },
@@ -22,15 +28,34 @@ export default function RegisterForm() {
 
   // Unregister fields not relevant for current userType
   useEffect(() => {
+    setValue("userType", userType);
     if (userType === "donor") {
       unregister(["organizationName", "headOfOrganization"]);
     } else {
       unregister(["fullName", "bloodGroup", "dateOfBirth"]);
     }
-  }, [userType, unregister]);
+  }, [userType, unregister, setValue]);
 
-  const onSubmit = (data: RegisterSchemaType) => {
-    console.log("Register submitted", data);
+  const onSubmit = async (data: RegisterSchemaType) => {
+    try {
+      setIsLoading(true);
+      const response = await handleRegister(data);
+      console.log("Registration response:", response);
+      
+      // Check if response indicates success
+      if (response && response.success) {
+        toast.success(response.message || "Account created successfully!")
+        // Redirect to login
+        router.push("/login")
+      } else {
+        // Handle failed response
+        toast.error(response?.message || "Registration failed. Please try again.")
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Registration failed. Please try again.")
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -61,7 +86,7 @@ export default function RegisterForm() {
       </div>
 
       {/* Hidden input to sync userType with schema */}
-      <input type="hidden" {...register("userType")} value={userType} />
+      <input type="hidden" {...register("userType")} />
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Donor Fields */}
@@ -73,7 +98,7 @@ export default function RegisterForm() {
                 type="text"
                 placeholder="Enter your full name"
                 {...register("fullName")}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition text-gray-900 bg-white"
               />
          
             </div>
@@ -83,7 +108,7 @@ export default function RegisterForm() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Blood Group</label>
                 <select
                   {...register("bloodGroup")}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none bg-white"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none bg-white text-gray-900"
                 >
                   <option value="">Select</option>
                   <option value="A+">A+</option>
@@ -103,7 +128,7 @@ export default function RegisterForm() {
                 <input
                   type="date"
                   {...register("dateOfBirth")}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition text-gray-900 bg-white"
                 />
            
               </div>
@@ -120,7 +145,7 @@ export default function RegisterForm() {
                 type="text"
                 placeholder="Enter organization name"
                 {...register("organizationName")}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition text-gray-900 bg-white"
               />
             
             </div>
@@ -131,7 +156,7 @@ export default function RegisterForm() {
                 type="text"
                 placeholder="Enter head of organization"
                 {...register("headOfOrganization")}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition text-gray-900 bg-white"
               />
          
             </div>
@@ -145,7 +170,7 @@ export default function RegisterForm() {
             type="email"
             placeholder="Enter your email"
             {...register("email")}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition text-gray-900 bg-white"
           />
           {errors.email?.message && <p className="text-red-600 text-sm">{errors.email?.message}</p>}
         </div>
@@ -156,7 +181,7 @@ export default function RegisterForm() {
             type="tel"
             placeholder="Enter your phone number"
             {...register("phoneNumber")}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition text-gray-900 bg-white"
           />
           {errors.phoneNumber?.message && (
             <p className="text-red-600 text-sm">{errors.phoneNumber?.message}</p>
@@ -169,7 +194,7 @@ export default function RegisterForm() {
             type="text"
             placeholder="Enter your address"
             {...register("address")}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition text-gray-900 bg-white"
           />
           {errors.address?.message && <p className="text-red-600 text-sm">{errors.address?.message}</p>}
         </div>
@@ -182,7 +207,7 @@ export default function RegisterForm() {
               type={showPassword ? "text" : "password"}
               placeholder="Enter password"
               {...register("password")}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition text-gray-900 bg-white"
             />
             <button
               type="button"
@@ -203,7 +228,7 @@ export default function RegisterForm() {
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm password"
               {...register("confirmPassword")}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition text-gray-900 bg-white"
             />
             <button
               type="button"
@@ -235,9 +260,10 @@ export default function RegisterForm() {
 
         <button
           type="submit"
-          className="w-full bg-red-600 text-white py-3 rounded-lg font-medium hover:bg-red-700 transition-colors"
+          disabled={isLoading}
+          className="w-full bg-red-600 text-white py-3 rounded-lg font-medium hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Register Now
+          {isLoading ? "Registering..." : "Register Now"}
         </button>
 
         <p className="text-center text-sm text-gray-600">
